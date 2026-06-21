@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>مُهندس البرومبت — كود مصدري كامل | أداة AI مع دعم فني للتركيب</title>
-  <meta name="description" content="امتلك أداة مهندس البرومبت لصياغة برومبتات احترافية بالعربي والإنجليزي. كود مصدري كامل م[...]
+  <title>مُهندس البرومبت — امتلك أقوى أداة AI | كود مصدري كامل</title>
+  <meta name="description" content="امتلك أداة مهندس البرومبت لصياغة برومبتات احترافية بالعربي والإنجليزي. كود مصدري كامل مع دعم فني للتركيب. ادفع مرة واحدة وامتلكها للأبد.">
   <meta name="keywords" content="مهندس البرومبت, كود مصدري, أداة AI, كتابة برومبت, دعم فني, تركيب, ذكاء اصطناعي عربي, Gemini API">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -18,343 +18,471 @@
     }
 
     :root {
-      --aqua-deep: #0b4f4c;
-      --aqua-bright: #1fc3b0;
-      --aqua-soft: #e0f7f4;
-      --white-pure: #ffffff;
-      --white-cream: #f9fbfa;
-      --gray-mist: #e9f0ee;
-      --text-dark: #1a2e2b;
-      --text-soft: #3d5550;
-      --border-light: rgba(31, 195, 176, 0.35);
-      --shadow-aqua: 0 18px 32px -14px rgba(11, 79, 76, 0.5);
-      --radius-xl: 28px;
-      --radius-md: 18px;
+      --bg-deep: #0a0f14;
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --neon-cyan: #00f2fe;
+      --neon-blue: #4facfe;
+      --aqua-glow: rgba(0, 242, 254, 0.25);
+      --text-primary: #ffffff;
+      --text-secondary: #a0b5c0;
+      --text-muted: #6b7f8a;
+      --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      --card-gradient: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --font-heading: 'Cairo', sans-serif;
+      --font-body: 'Tajawal', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
     body {
-      background: linear-gradient(145deg, #e8faf6 0%, #ffffff 100%);
-      font-family: 'Tajawal', sans-serif;
-      color: var(--text-dark);
+      background: var(--bg-deep);
+      font-family: var(--font-body);
+      color: var(--text-primary);
       line-height: 1.7;
       direction: rtl;
-      padding: 1.5rem 1rem;
+      padding: 2rem 1.5rem;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    .glass-container {
-      max-width: 920px;
+    /* خلفية ديناميكية ساحرة */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(0, 242, 254, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(79, 172, 254, 0.12) 0%, transparent 50%);
+      z-index: -2;
+      animation: bgMove 15s infinite alternate ease-in-out;
+    }
+    
+    /* شبكة نقطية لمسة تقنية */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @keyframes bgMove {
+      0% { transform: translate(0%, 0%) rotate(0deg); }
+      100% { transform: translate(-5%, 5%) rotate(2deg); }
+    }
+
+    .main-container {
+      max-width: 900px;
       width: 100%;
       margin: 0 auto;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 2.8rem;
-      padding: 2.2rem 2rem;
-      box-shadow: 0 35px 55px -22px rgba(11, 79, 76, 0.4);
-      border: 1px solid rgba(31, 195, 176, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
     }
 
-    /* Navbar */
+    /* ---------- Navigation ---------- */
     .navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 2rem;
       flex-wrap: wrap;
+      gap: 1rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+      padding: 0.8rem 1.5rem;
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
+      gap: 0.8rem;
       font-weight: 800;
-      font-size: 1.4rem;
-      color: #0b3b38;
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      font-family: var(--font-heading);
     }
     .brand-icon {
-      background: linear-gradient(135deg, #14b8a6, #0d9488);
-      color: white;
-      width: 44px;
-      height: 44px;
-      border-radius: 16px;
+      background: var(--accent-gradient);
+      color: #0a0f14;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: var(--font-mono);
       font-weight: 700;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+      box-shadow: 0 0 20px var(--aqua-glow);
     }
     .code-badge {
-      background: rgba(20, 184, 166, 0.15);
-      padding: 0.4rem 1.4rem;
-      border-radius: 40px;
-      font-size: 0.8rem;
+      background: rgba(255,255,255,0.05);
+      padding: 0.5rem 1.5rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
       font-weight: 600;
-      color: #0b4f4c;
-      border: 1px solid var(--border-light);
+      color: var(--neon-cyan);
+      border: 1px solid rgba(0,242,254,0.3);
       font-family: var(--font-mono);
+      letter-spacing: 0.5px;
     }
 
-    /* ✨ أماكن متعددة للصور من داخل البوت */
+    /* ---------- Hero Section ---------- */
+    .hero {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
     .image-row {
       display: flex;
       justify-content: center;
-      gap: 1.2rem;
+      gap: 1rem;
       flex-wrap: wrap;
-      margin: 2rem 0 2.2rem;
     }
     .mock-img {
-      width: 120px;
-      height: 120px;
+      width: 140px;
+      height: 140px;
       object-fit: cover;
-      border-radius: 28px;
-      background: #cbf7f0;
-      box-shadow: 0 20px 28px -14px rgba(11,79,76,0.45);
-      border: 2px solid white;
-      transition: transform 0.25s ease;
+      border-radius: 32px;
+      background: var(--glass-bg);
+      box-shadow: 0 25px 40px -15px rgba(0,0,0,0.6), 0 0 0 1px var(--glass-border);
+      border: 2px solid rgba(255,255,255,0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: brightness(0.9) contrast(1.1);
     }
-    .mock-img:first-child { transform: rotate(-2deg); }
-    .mock-img:last-child { transform: rotate(3deg); }
-
-    .support-banner {
-      background: linear-gradient(105deg, #e0f7f4, #ffffff);
-      border-radius: 24px;
-      padding: 1.2rem 1.5rem;
-      margin: 1.5rem 0;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      border: 1px solid #9ad9d0;
-      flex-wrap: wrap;
-    }
-    .support-icon {
-      background: #14b8a6;
-      color: white;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
+    .mock-img:hover {
+      transform: scale(1.05) translateY(-8px);
+      box-shadow: 0 30px 50px -15px var(--aqua-glow), 0 0 0 1px var(--neon-cyan);
+      filter: brightness(1.1);
     }
 
     h1 {
-      font-family: 'Cairo', sans-serif;
-      font-weight: 800;
-      font-size: 2.5rem;
+      font-family: var(--font-heading);
+      font-weight: 900;
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
       line-height: 1.3;
-      color: #0a3a36;
-      margin: 0.5rem 0 1.2rem;
+      color: #ffffff;
+      text-shadow: 0 0 30px rgba(0,242,254,0.2);
     }
     .highlight {
-      color: #0d9488;
-      background: linear-gradient(to left, #e0f7f4, transparent 80%);
-      padding-inline: 6px;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
     }
 
     .hero-text {
       font-size: 1.15rem;
-      color: #2c4a45;
-      margin-bottom: 1.8rem;
+      color: var(--text-secondary);
+      max-width: 700px;
       font-weight: 500;
     }
 
+    .support-banner {
+      background: linear-gradient(105deg, rgba(0,242,254,0.08) 0%, rgba(79,172,254,0.05) 100%);
+      border-radius: var(--radius-lg);
+      padding: 1.2rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      border: 1px solid rgba(0,242,254,0.25);
+      backdrop-filter: blur(10px);
+      width: 100%;
+      max-width: 600px;
+    }
+    .support-icon {
+      font-size: 2rem;
+      filter: drop-shadow(0 0 8px var(--neon-cyan));
+    }
+
+    /* ---------- Pricing Card ---------- */
     .pricing-card {
-      background: white;
+      background: var(--card-gradient);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
       border-radius: var(--radius-xl);
-      padding: 1.8rem;
-      margin: 2rem 0 1.8rem;
-      box-shadow: 0 18px 30px -14px rgba(0,0,0,0.1);
-      border: 1px solid #b6e6de;
+      padding: 2rem;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 25px 40px -20px rgba(0,0,0,0.5);
+      width: 100%;
     }
     .price-line {
       display: flex;
       align-items: baseline;
-      gap: 0.8rem;
+      gap: 1rem;
       flex-wrap: wrap;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
     .egypt-price {
       font-family: var(--font-mono);
-      font-size: 2.8rem;
+      font-size: 3.2rem;
       font-weight: 700;
-      color: #0b4f4c;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 25px var(--aqua-glow);
     }
     .old-egypt {
       font-family: var(--font-mono);
-      font-size: 1.3rem;
-      color: #7fa09a;
+      font-size: 1.4rem;
+      color: var(--text-muted);
       text-decoration: line-through;
+      opacity: 0.7;
     }
     .offer-badge {
-      background: #0f766e;
-      color: white;
-      padding: 0.3rem 1.1rem;
-      border-radius: 30px;
+      background: rgba(0,242,254,0.15);
+      color: var(--neon-cyan);
+      padding: 0.4rem 1.2rem;
+      border-radius: 100px;
       font-weight: 700;
-      font-size: 0.85rem;
-      background: linear-gradient(115deg, #1fc3b0, #0d9488);
+      font-size: 0.9rem;
+      border: 1px solid rgba(0,242,254,0.4);
     }
     .counter-box {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      background: #ecfdf9;
-      padding: 0.7rem 1.3rem;
-      border-radius: 40px;
+      gap: 0.8rem;
+      background: rgba(255,255,255,0.03);
+      padding: 0.8rem 1.5rem;
+      border-radius: 100px;
       width: fit-content;
-      margin-top: 0.7rem;
       font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-secondary);
     }
     .live-circle {
       width: 12px;
       height: 12px;
-      background: #14b8a6;
+      background: #00f2fe;
       border-radius: 50%;
-      box-shadow: 0 0 0 4px rgba(20,184,166,0.35);
-      animation: pulse 1.4s infinite;
+      box-shadow: 0 0 15px #00f2fe;
+      animation: pulse 1.5s infinite;
     }
-    @keyframes pulse { 0% { opacity: 0.6; transform: scale(0.8);} 70% { opacity: 1; transform: scale(1.3);} 100% { opacity: 0.6; transform: scale(0.8);} }
+    @keyframes pulse { 0% { opacity: 0.6; transform: scale(0.8);} 70% { opacity: 1; transform: scale(1.4);} 100% { opacity: 0.6; transform: scale(0.8);} }
 
+    /* ---------- Buttons ---------- */
     .btn-group {
       display: flex;
-      gap: 0.9rem;
+      gap: 1rem;
       flex-wrap: wrap;
-      margin: 1.8rem 0 1rem;
+      justify-content: center;
+      margin: 1rem 0;
     }
     .btn {
       border: none;
-      background: white;
-      padding: 0.95rem 2rem;
-      border-radius: 50px;
+      padding: 1rem 2.2rem;
+      border-radius: 60px;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 1.1rem;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      transition: 0.2s;
+      gap: 0.6rem;
+      transition: all 0.3s ease;
+      font-family: var(--font-heading);
+      letter-spacing: 0.3px;
+      position: relative;
+      overflow: hidden;
     }
-    .btn-solid {
-      background: #0d9488;
-      color: white;
-      box-shadow: 0 14px 26px -10px rgba(13,148,136,0.6);
-      background: linear-gradient(120deg, #14b8a6, #0f766e);
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: #0a0f14;
+      box-shadow: 0 10px 25px -5px var(--aqua-glow);
+      font-weight: 800;
     }
-    .btn-solid:hover { transform: translateY(-3px); }
+    .btn-primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 35px -5px var(--aqua-glow);
+    }
     .btn-outline {
-      border: 1.5px solid #1fc3b0;
-      color: #0b4f4c;
       background: transparent;
+      border: 1.5px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0,242,254,0.1);
+    }
+    .btn-outline:hover {
+      background: rgba(0,242,254,0.1);
+      box-shadow: 0 0 25px rgba(0,242,254,0.3);
     }
 
+    /* ---------- Chat Mockup ---------- */
     .chat-mock {
-      background: white;
-      border-radius: 26px;
-      padding: 1.2rem;
-      margin: 2rem 0;
-      box-shadow: 0 15px 30px -15px rgba(11,79,76,0.2);
-      border: 1px solid #c2ece5;
+      background: var(--card-gradient);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      border: 1px solid var(--glass-border);
+      width: 100%;
     }
-    .chat-top { display: flex; gap: 6px; padding-bottom: 0.8rem; }
-    .dot { width: 9px; height: 9px; background: #9fd9d1; border-radius: 50%; }
+    .chat-top {
+      display: flex;
+      gap: 8px;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 1rem;
+    }
+    .dot { width: 10px; height: 10px; background: #4a5a66; border-radius: 50%; }
     .bubble {
       max-width: 80%;
-      padding: 0.9rem 1.3rem;
-      border-radius: 22px;
+      padding: 1rem 1.4rem;
+      border-radius: 20px;
       margin: 0.8rem 0;
       font-size: 0.95rem;
+      backdrop-filter: blur(5px);
     }
-    .user-msg { background: #e0f7f4; margin-right: auto; }
-    .bot-msg { background: #f3f4f6; margin-left: auto; }
+    .user-msg {
+      background: rgba(0,242,254,0.1);
+      border: 1px solid rgba(0,242,254,0.2);
+      margin-right: auto;
+      border-bottom-left-radius: 6px;
+      color: #e0f2fe;
+    }
+    .bot-msg {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-left: auto;
+      border-bottom-right-radius: 6px;
+      color: #b0c4d0;
+    }
 
+    /* ---------- Features Grid ---------- */
     .grid-features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px,1fr));
-      gap: 1.2rem;
-      margin: 2.2rem 0;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
     }
     .feature-item {
-      background: rgba(255,255,255,0.8);
-      backdrop-filter: blur(4px);
-      padding: 1.5rem;
-      border-radius: 24px;
-      border: 1px solid var(--border-light);
+      background: var(--card-gradient);
+      backdrop-filter: blur(15px);
+      padding: 1.8rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--glass-border);
+      transition: all 0.4s ease;
+    }
+    .feature-item:hover {
+      border-color: rgba(0,242,254,0.4);
+      box-shadow: 0 15px 30px -15px rgba(0,242,254,0.2);
+      transform: translateY(-5px);
+    }
+    .feature-num {
+      font-family: var(--font-mono);
+      color: var(--neon-cyan);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      display: block;
     }
 
+    /* ---------- Purchase Block ---------- */
     .purchase-block {
-      background: white;
-      border-radius: 28px;
-      padding: 2rem;
-      margin: 2rem 0;
+      background: var(--card-gradient);
+      backdrop-filter: blur(25px);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      border: 1px solid var(--glass-border);
+      text-align: center;
     }
     #copyWalletBtn {
-      background: #0d9488;
-      color: white;
+      background: rgba(0,242,254,0.1);
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
       font-weight: 700;
-      padding: 1rem;
-      border-radius: 40px;
+      padding: 1rem 2rem;
+      border-radius: 60px;
       width: 100%;
-      border: none;
       font-size: 1.1rem;
       cursor: pointer;
-      transition: 0.2s;
+      transition: 0.3s;
+      margin: 1.5rem 0;
+      font-family: var(--font-heading);
+      background: var(--accent-gradient);
+      color: #0a0f14;
+      border: none;
     }
-    #copyWalletBtn.copied { background: #0b5e58; }
+    #copyWalletBtn.copied {
+      background: #0f766e;
+    }
+
+    .whatsapp-link {
+      color: var(--neon-cyan);
+      text-decoration: none;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
 
     footer {
       text-align: center;
-      color: #3d5550;
-      margin-top: 2rem;
+      color: var(--text-muted);
       font-size: 0.9rem;
+      padding: 2rem 0;
     }
 
-    @media (max-width: 500px) {
-      .glass-container { padding: 1.5rem; }
-      h1 { font-size: 2rem; }
+    @media (max-width: 600px) {
+      body { padding: 1rem; }
+      .main-container { gap: 2rem; }
     }
   </style>
 </head>
 <body>
-<div class="glass-container">
+<div class="main-container">
   
   <!-- Navigation -->
   <div class="navbar">
     <div class="brand">
       <span class="brand-icon">PA</span> مُهندس البرومبت
     </div>
-    <div class="code-badge">كود مصدري · ملكية كاملة</div>
+    <div class="code-badge">⚡ كود مصدري · ملكية كاملة</div>
   </div>
 
-  <!-- 🖼️ أول معاينة للصور (مكان تحط فيه صورك من البوت) -->
-  <div class="image-row">
-    <img src="Img1.jpg" alt="معاينة أداة البرومبت" class="mock-img" onerror="this.onerror=null;this.src='https://via.placeholder.com/120x120?text=No+Image'">
-    <img src="Img2.jpg" alt="كود مصدري كامل" class="mock-img" onerror="this.onerror=null;this.src='https://via.placeholder.com/120x120?text=No+Image'">
-  </div>
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="image-row">
+      <img src="Img1.jpg" alt="واجهة أداة البرومبت" class="mock-img" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Crect width=%22140%22 height=%22140%22 fill=%22%230a0f14%22/%3E%3Ctext x=%2220%22 y=%2275%22 fill=%22%2300f2fe%22%3EAI%3C/text%3E%3C/svg%3E';">
+      <img src="Img2.jpg" alt="كود مصدري جاهز" class="mock-img" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Crect width=%22140%22 height=%22140%22 fill=%22%230a0f14%22/%3E%3Ctext x=%2235%22 y=%2275%22 fill=%22%2300f2fe%22%3Eكود%3C/text%3E%3C/svg%3E';">
+    </div>
 
-  <!-- ⚡ تنويه دعم فني بارز في الأعلى -->
-  <div class="support-banner">
-    <span class="support-icon">🛠️</span>
-    <div>
-      <strong style="font-size:1.1rem; color:#0b4f4c;">دعم فني مجاني للتركيب كاملًا</strong>
-      <p style="margin:0; color:#2c4a45;">معاك خطوة بخطوة لحد ما الأداة تشتغل عندك على حسابك الخاص. مش هنسيبك إلا وهي شغالة تما[...]
+    <h1>أداة الـ AI اللي بتكتبها مرة، وتفضل <span class="highlight">ملكك للأبد</span></h1>
+    <p class="hero-text">
+      <strong>مُهندس البرومبت</strong> أداة محادثة ثنائية اللغة لصياغة برومبتات احترافية — مش اشتراك، مش خدمة بتمر منّي. 
+      كود مصدري كامل تركّبه على حسابك وتتحكم فيه كما تشاء.
+    </p>
+
+    <div class="support-banner">
+      <span class="support-icon">🛠️</span>
+      <div>
+        <strong style="font-size:1.1rem; color:#fff;">دعم فني مجاني للتركيب كاملًا</strong>
+        <p style="margin:0; color: var(--text-secondary);">معاك خطوة بخطوة لحد ما الأداة تشتغل عندك على حسابك الخاص. مش هنسيبك إلا وهي شغالة تمامًا.</p>
+      </div>
     </div>
   </div>
 
-  <h1>أداة الـ AI اللي بتكتبها مرة واحدة، وتفضل <span class="highlight">ملكك للأبد</span></h1>
-  <p class="hero-text">
-    <strong>مُهندس البرومبت</strong> أداة محادثة ثنائية اللغة (عربي/إنجليزي) لصياغة برومبتات احترافية —
-    مش اشتراك، مش خدمة بتمر منّي. كود مصدري كامل، تركّبه على حسابك إنت، وتتحكم فيه زي ما تحب.
-    ومعاك <strong>دعم فني مجاني كامل</strong> حتى يتم التركيب والتشغيل بنجاح.
-  </p>
-
-  <!-- السعر المصري + العداد -->
+  <!-- Pricing & Counter -->
   <div class="pricing-card">
     <div class="price-line">
       <span class="egypt-price">100 ج.م</span>
@@ -365,22 +493,15 @@
       <span class="live-circle"></span>
       <span>⚡ <strong id="buyerCount">5</strong> من أصل 10 اشتروا حتى الآن</span>
     </div>
-    <div style="margin-top: 0.9rem; color: #0b4f4c; font-weight: 500;">💰 سعر إطلاق محدود · ادفع عبر اتصالات كاش</div>
+    <div style="margin-top: 1rem; color: var(--text-secondary);">💰 سعر إطلاق محدود · ادفع عبر اتصالات كاش</div>
+
+    <div class="btn-group" style="margin-top: 2rem;">
+      <a href="#buyNow" class="btn btn-primary">⚡ امتلك الكود الآن</a>
+      <a href="#demoChat" class="btn btn-outline">💬 شوف الأداة شغالة</a>
+    </div>
   </div>
 
-  <div class="btn-group">
-    <a href="#buyNow" class="btn btn-solid">⚡ امتلك الكود الآن</a>
-    <a href="#demoChat" class="btn btn-outline">💬 شوف الأداة شغالة</a>
-  </div>
-  <p style="font-size:0.9rem; color:#2c4a45;">🔒 دفع محلي مباشر · تسليم فوري + دعم فني للتركيب</p>
-
-  <!-- 🖼️ معاينة صور إضافية (مكان تاني للصور) -->
-  <div class="image-row" style="margin: 2rem 0 1.5rem;">
-    <img src="Img2.jpg" alt="دعم فني للتركيب" class="mock-img" style="width:100px; height:100px;" onerror="this.onerror=null;this.src='https://via.placeholder.com/100x100?text=No+Image'">
-    <img src="Img1.jpg" alt="تشغيل الأداة" class="mock-img" style="width:100px; height:100px;" onerror="this.onerror=null;this.src='https://via.placeholder.com/100x100?text=No+Image'">
-  </div>
-
-  <!-- شات موك اب -->
+  <!-- Chat Demo -->
   <div class="chat-mock" id="demoChat">
     <div class="chat-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span> مُهندس البرومبت — معاينة حية</div>
     <div class="bubble user-msg">عايز برومبت لكتابة وصف منتج لمتجري الإلكتروني</div>
@@ -388,59 +509,53 @@
     <div class="bubble user-msg">منتجات رقمية، جمهور عربي</div>
   </div>
 
-  <!-- مميزات -->
+  <!-- Features -->
   <div class="grid-features">
     <div class="feature-item">
-      <span style="font-family:monospace;color:#14b8a6;">01 / ملكية</span>
+      <span class="feature-num">01 / ملكية</span>
       <h3>الكود ملكك بالكامل</h3>
       <p>تدفع مرة واحدة، تستلم كل الملفات، وتعدّل فيها بحرية دون أي قيود.</p>
     </div>
     <div class="feature-item">
-      <span style="font-family:monospace;color:#14b8a6;">02 / استضافة</span>
+      <span class="feature-num">02 / استضافة</span>
       <h3>يشتغل مجانًا للأبد</h3>
       <p>مصمم لـ GitHub Pages وCloudflare Workers بدون تكاليف شهرية.</p>
     </div>
     <div class="feature-item">
-      <span style="font-family:monospace;color:#14b8a6;">03 / خصوصية</span>
+      <span class="feature-num">03 / خصوصية</span>
       <h3>مفتاحك في متصفحك</h3>
       <p>تخزين محلي لمفتاح Gemini API، لا بيانات تمر عبر أي وسيط.</p>
     </div>
     <div class="feature-item">
-      <span style="font-family:monospace;color:#14b8a6;">04 / لغة</span>
+      <span class="feature-num">04 / لغة</span>
       <h3>عربي وإنجليزي أصلي</h3>
       <p>واجهة RTL احترافية مبنية للمستخدم العربي من البداية.</p>
     </div>
   </div>
 
-  <!-- 🛠️ تنويه دعم فني إضافي (في النص) -->
-  <div style="background:#eefdf9; border-radius:24px; padding:1.5rem; margin:1rem 0;">
-    <p style="font-weight:700; color:#0b4f4c;">🛡️ دعم فني كامل حتى التشغيل</p>
-    <p style="color:#2c4a45;">بعد استلام الكود، بتابع معاك شخصيًا على واتساب أو أي وسيلة تفضلها. نشرح خطوات رفع الكود على[...]
+  <!-- Support Guarantee -->
+  <div style="background: rgba(0,242,254,0.05); border-radius: 24px; padding: 1.8rem; border: 1px solid rgba(0,242,254,0.2); text-align: center;">
+    <p style="font-weight: 800; font-size: 1.2rem; color: #fff;">🛡️ دعم فني كامل حتى التشغيل</p>
+    <p style="color: var(--text-secondary);">بعد استلام الكود، بتابع معاك شخصيًا على واتساب. نشرح خطوات الرفع والربط ونتأكد إن كل حاجة شغالة. <strong>مش هتبقى لوحدك أبدًا.</strong></p>
   </div>
 
-  <!-- قسم الشراء (اتصالات كاش + نسخ تلقائي) -->
+  <!-- Purchase Section -->
   <div class="purchase-block" id="buyNow">
-    <h2 style="color:#0b4f4c; margin-bottom:1rem;">📱 ادفع عبر اتصالات كاش</h2>
-    <p style="margin-bottom:1.2rem;">حوّل 100 جنيه (لأول 10 عملاء) · بعد الدفع ابعت إثبات على واتساب + استلم دعم فني فوري</p>
+    <h2 style="color:#fff; margin-bottom:1rem;">📱 ادفع عبر اتصالات كاش</h2>
+    <p style="margin-bottom:1.5rem; color: var(--text-secondary);">حوّل 100 جنيه (لأول 10 عملاء) · بعد الدفع ابعت إثبات على واتساب + استلم دعم فني فوري</p>
     
     <button id="copyWalletBtn" onclick="handleCopyWallet()">
       📋 اضغط لنسخ رقم المحفظة تلقائيًا
     </button>
-    <p id="copyMessage" style="margin-top:0.7rem; font-size:0.9rem; color:#0b4f4c;"></p>
+    <p id="copyMessage" style="margin-top:0.8rem; font-size:0.9rem; color: var(--neon-cyan);"></p>
 
-    <div style="margin-top:1.8rem; display:flex; gap:0.8rem; flex-wrap:wrap;">
-      <a href="https://wa.me/201124316097?text=السلام%20عليكم%2C%20حوّلت%20مبلغ%20أداة%20مهندس%20البرومبت%20(100%20جنيه)%20عبر%20اتصالات%20كاش">📞 واتساب - أكيد دفعت</a>
-    </div>
-    <p style="margin-top:1rem; font-size:0.85rem;">رقم اتصالات كاش: <span style="font-family:monospace; direction:ltr;">01124316097</span> (يُنسخ تلقائيًا)</p>
+    <a href="https://wa.me/201124316097?text=السلام%20عليكم%2C%20حوّلت%20مبلغ%20أداة%20مهندس%20البرومبت%20(100%20جنيه)%20عبر%20اتصالات%20كاش%20وهذا%20إثبات%20التحويل" target="_blank" class="whatsapp-link">
+      💬 واتساب لتأكيد الدفع
+    </a>
+    <p style="margin-top:1.5rem; font-size:0.85rem; color: var(--text-muted);">رقم اتصالات كاش: <span style="font-family:monospace; direction:ltr; color:#fff;">01124316097</span> (يُنسخ تلقائيًا)</p>
   </div>
 
-  <!-- 🖼️ معاينة صور ثالثة (أسفل الصفحة) -->
-  <div class="image-row" style="margin: 1.8rem 0 1rem;">
-    <img src="Img2.jpg" alt="تركيب سريع" class="mock-img" style="width:110px; height:110px;" onerror="this.onerror=null;this.src='https://via.placeholder.com/110x110?text=No+Image'">
-    <img src="Img1.jpg" alt="دعم مستمر" class="mock-img" style="width:110px; height:110px;" onerror="this.onerror=null;this.src='https://via.placeholder.com/110x110?text=No+Image'">
-  </div>
-
-  <footer>مُهندس البرومبت — كود مصدري كامل · دعم فني للتركيب · ألوان أكوا زاهية</footer>
+  <footer>مُهندس البرومبت — كود مصدري كامل · دعم فني للتركيب · تصميم عصري جذاب</footer>
 </div>
 
 <script>
