@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>مُهندس البرومبت — كود مصدري كامل | أداة AI مع دعم فني للتركيب</title>
+  <meta name="description" content="امتلك أداة مهندس البرومبت لصياغة برومبتات احترافية بالعربي والإنجليزي. كود مصدري كامل مع دعم فني مجاني حتى يشتغل عندك. استضافة مجانية، خصوصية كاملة، وبدون اشتراكات.">
+  <meta name="keywords" content="مهندس البرومبت, كود مصدري, أداة AI, كتابة برومبت, دعم فني, تركيب, ذكاء اصطناعي عربي, Gemini API">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --aqua-deep: #0b4f4c;
+      --aqua-bright: #1fc3b0;
+      --aqua-soft: #e0f7f4;
+      --white-pure: #ffffff;
+      --white-cream: #f9fbfa;
+      --gray-mist: #e9f0ee;
+      --text-dark: #1a2e2b;
+      --text-soft: #3d5550;
+      --border-light: rgba(31, 195, 176, 0.35);
+      --shadow-aqua: 0 18px 32px -14px rgba(11, 79, 76, 0.5);
+      --radius-xl: 28px;
+      --radius-md: 18px;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      background: linear-gradient(145deg, #e8faf6 0%, #ffffff 100%);
+      font-family: 'Tajawal', sans-serif;
+      color: var(--text-dark);
+      line-height: 1.7;
+      direction: rtl;
+      padding: 1.5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .glass-container {
+      max-width: 920px;
+      width: 100%;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 2.8rem;
+      padding: 2.2rem 2rem;
+      box-shadow: 0 35px 55px -22px rgba(11, 79, 76, 0.4);
+      border: 1px solid rgba(31, 195, 176, 0.3);
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: #0b3b38;
+    }
+    .brand-icon {
+      background: linear-gradient(135deg, #14b8a6, #0d9488);
+      color: white;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    .code-badge {
+      background: rgba(20, 184, 166, 0.15);
+      padding: 0.4rem 1.4rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #0b4f4c;
+      border: 1px solid var(--border-light);
+      font-family: var(--font-mono);
+    }
+
+    /* ✨ أماكن متعددة للصور من داخل البوت */
+    .image-row {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin: 2rem 0 2.2rem;
+    }
+    .mock-img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 28px;
+      background: #cbf7f0;
+      box-shadow: 0 20px 28px -14px rgba(11,79,76,0.45);
+      border: 2px solid white;
+      transition: transform 0.25s ease;
+    }
+    .mock-img:first-child { transform: rotate(-2deg); }
+    .mock-img:last-child { transform: rotate(3deg); }
+
+    .support-banner {
+      background: linear-gradient(105deg, #e0f7f4, #ffffff);
+      border-radius: 24px;
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid #9ad9d0;
+      flex-wrap: wrap;
+    }
+    .support-icon {
+      background: #14b8a6;
+      color: white;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    h1 {
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: 2.5rem;
+      line-height: 1.3;
+      color: #0a3a36;
+      margin: 0.5rem 0 1.2rem;
+    }
+    .highlight {
+      color: #0d9488;
+      background: linear-gradient(to left, #e0f7f4, transparent 80%);
+      padding-inline: 6px;
+    }
+
+    .hero-text {
+      font-size: 1.15rem;
+      color: #2c4a45;
+      margin-bottom: 1.8rem;
+      font-weight: 500;
+    }
+
+    .pricing-card {
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: 1.8rem;
+      margin: 2rem 0 1.8rem;
+      box-shadow: 0 18px 30px -14px rgba(0,0,0,0.1);
+      border: 1px solid #b6e6de;
+    }
+    .price-line {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .egypt-price {
+      font-family: var(--font-mono);
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #0b4f4c;
+    }
+    .old-egypt {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      color: #7fa09a;
+      text-decoration: line-through;
+    }
+    .offer-badge {
+      background: #0f766e;
+      color: white;
+      padding: 0.3rem 1.1rem;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      background: linear-gradient(115deg, #1fc3b0, #0d9488);
+    }
+    .counter-box {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #ecfdf9;
+      padding: 0.7rem 1.3rem;
+      border-radius: 40px;
+      width: fit-content;
+      margin-top: 0.7rem;
+      font-weight: 600;
+    }
+    .live-circle {
+      width: 12px;
+      height: 12px;
+      background: #14b8a6;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(20,184,166,0.35);
+      animation: pulse 1.4s infinite;
+    }
+    @keyframes pulse { 0% { opacity: 0.6; transform: scale(0.8);} 70% { opacity: 1; transform: scale(1.3);} 100% { opacity: 0.6; transform: scale(0.8);} }
+
+    .btn-group {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      margin: 1.8rem 0 1rem;
+    }
+    .btn {
+      border: none;
+      background: white;
+      padding: 0.95rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: 0.2s;
+    }
+    .btn-solid {
+      background: #0d9488;
+      color: white;
+      box-shadow: 0 14px 26px -10px rgba(13,148,136,0.6);
+      background: linear-gradient(120deg, #14b8a6, #0f766e);
+    }
+    .btn-solid:hover { transform: translateY(-3px); }
+    .btn-outline {
+      border: 1.5px solid #1fc3b0;
+      color: #0b4f4c;
+      background: transparent;
+    }
+
+    .chat-mock {
+      background: white;
+      border-radius: 26px;
+      padding: 1.2rem;
+      margin: 2rem 0;
+      box-shadow: 0 15px 30px -15px rgba(11,79,76,0.2);
+      border: 1px solid #c2ece5;
+    }
+    .chat-top { display: flex; gap: 6px; padding-bottom: 0.8rem; }
+    .dot { width: 9px; height: 9px; background: #9fd9d1; border-radius: 50%; }
+    .bubble {
+      max-width: 80%;
+      padding: 0.9rem 1.3rem;
+      border-radius: 22px;
+      margin: 0.8rem 0;
+      font-size: 0.95rem;
+    }
+    .user-msg { background: #e0f7f4; margin-right: auto; }
+    .bot-msg { background: #f3f4f6; margin-left: auto; }
+
+    .grid-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px,1fr));
+      gap: 1.2rem;
+      margin: 2.2rem 0;
+    }
+    .feature-item {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(4px);
+      padding: 1.5rem;
+      border-radius: 24px;
+      border: 1px solid var(--border-light);
+    }
+
+    .purchase-block {
+      background: white;
+      border-radius: 28px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+    #copyWalletBtn {
+      background: #0d9488;
+      color: white;
+      font-weight: 700;
+      padding: 1rem;
+      border-radius: 40px;
+      width: 100%;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    #copyWalletBtn.copied { background: #0b5e58; }
+
+    footer {
+      text-align: center;
+      color: #3d5550;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 500px) {
+      .glass-container { padding: 1.5rem; }
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="glass-container">
+  
+  <!-- Navigation -->
+  <div class="navbar">
+    <div class="brand">
+      <span class="brand-icon">PA</span> مُهندس البرومبت
+    </div>
+    <div class="code-badge">كود مصدري · ملكية كاملة</div>
+  </div>
+
+  <!-- 🖼️ أول معاينة للصور (مكان تحط فيه صورك من البوت) -->
+  <div class="image-row">
+    <img src="/storage/emulated/0/shopy/Img1.jpg" alt="معاينة أداة البرومبت" class="mock-img" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Crect width=%22120%22 height=%22120%22 fill=%22%231fc3b0%22/%3E%3Ctext x=%2220%22 y=%2270%22 fill=%22white%22%3EAI%3C/text%3E%3C/svg%3E';">
+    <img src="/storage/emulated/0/shopy/Img2.jpg" alt="كود مصدري كامل" class="mock-img" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Crect width=%22120%22 height=%22120%22 fill=%22%230f766e%22/%3E%3Ctext x=%2215%22 y=%2270%22 fill=%22white%22%3Ecode%3C/text%3E%3C/svg%3E';">
+  </div>
+
+  <!-- ⚡ تنويه دعم فني بارز في الأعلى -->
+  <div class="support-banner">
+    <span class="support-icon">🛠️</span>
+    <div>
+      <strong style="font-size:1.1rem; color:#0b4f4c;">دعم فني مجاني للتركيب كاملًا</strong>
+      <p style="margin:0; color:#2c4a45;">معاك خطوة بخطوة لحد ما الأداة تشتغل عندك على حسابك الخاص. مش هنسيبك إلا وهي شغالة تمامًا.</p>
+    </div>
+  </div>
+
+  <h1>أداة الـ AI اللي بتكتبها مرة واحدة، وتفضل <span class="highlight">ملكك للأبد</span></h1>
+  <p class="hero-text">
+    <strong>مُهندس البرومبت</strong> أداة محادثة ثنائية اللغة (عربي/إنجليزي) لصياغة برومبتات احترافية —
+    مش اشتراك، مش خدمة بتمر منّي. كود مصدري كامل، تركّبه على حسابك إنت، وتتحكم فيه زي ما تحب.
+    ومعاك <strong>دعم فني مجاني كامل</strong> حتى يتم التركيب والتشغيل بنجاح.
+  </p>
+
+  <!-- السعر المصري + العداد -->
+  <div class="pricing-card">
+    <div class="price-line">
+      <span class="egypt-price">100 ج.م</span>
+      <span class="old-egypt">200 ج.م</span>
+      <span class="offer-badge">🏷️ عرض أول 10 عملاء</span>
+    </div>
+    <div class="counter-box" id="liveCounter">
+      <span class="live-circle"></span>
+      <span>⚡ <strong id="buyerCount">5</strong> من أصل 10 اشتروا حتى الآن</span>
+    </div>
+    <div style="margin-top: 0.9rem; color: #0b4f4c; font-weight: 500;">💰 سعر إطلاق محدود · ادفع عبر اتصالات كاش</div>
+  </div>
+
+  <div class="btn-group">
+    <a href="#buyNow" class="btn btn-solid">⚡ امتلك الكود الآن</a>
+    <a href="#demoChat" class="btn btn-outline">💬 شوف الأداة شغالة</a>
+  </div>
+  <p style="font-size:0.9rem; color:#2c4a45;">🔒 دفع محلي مباشر · تسليم فوري + دعم فني للتركيب</p>
+
+  <!-- 🖼️ معاينة صور إضافية (مكان تاني للصور) -->
+  <div class="image-row" style="margin: 2rem 0 1.5rem;">
+    <img src="/storage/emulated/0/shopy/Img2.jpg" alt="دعم فني للتركيب" class="mock-img" style="width:100px; height:100px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%2314b8a6%22/%3E%3Ctext x=%2210%22 y=%2260%22 fill=%22white%22%3Ehelp%3C/text%3E%3C/svg%3E';">
+    <img src="/storage/emulated/0/shopy/Img1.jpg" alt="تشغيل الأداة" class="mock-img" style="width:100px; height:100px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%230d9488%22/%3E%3Ctext x=%2220%22 y=%2260%22 fill=%22white%22%3Eon%3C/text%3E%3C/svg%3E';">
+  </div>
+
+  <!-- شات موك اب -->
+  <div class="chat-mock" id="demoChat">
+    <div class="chat-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span> مُهندس البرومبت — معاينة حية</div>
+    <div class="bubble user-msg">عايز برومبت لكتابة وصف منتج لمتجري الإلكتروني</div>
+    <div class="bubble bot-msg">تمام، محتاج أعرف طبيعة المنتج والجمهور المستهدف عشان أبنيلك برومبت دقيق.</div>
+    <div class="bubble user-msg">منتجات رقمية، جمهور عربي</div>
+  </div>
+
+  <!-- مميزات -->
+  <div class="grid-features">
+    <div class="feature-item">
+      <span style="font-family:monospace;color:#14b8a6;">01 / ملكية</span>
+      <h3>الكود ملكك بالكامل</h3>
+      <p>تدفع مرة واحدة، تستلم كل الملفات، وتعدّل فيها بحرية دون أي قيود.</p>
+    </div>
+    <div class="feature-item">
+      <span style="font-family:monospace;color:#14b8a6;">02 / استضافة</span>
+      <h3>يشتغل مجانًا للأبد</h3>
+      <p>مصمم لـ GitHub Pages وCloudflare Workers بدون تكاليف شهرية.</p>
+    </div>
+    <div class="feature-item">
+      <span style="font-family:monospace;color:#14b8a6;">03 / خصوصية</span>
+      <h3>مفتاحك في متصفحك</h3>
+      <p>تخزين محلي لمفتاح Gemini API، لا بيانات تمر عبر أي وسيط.</p>
+    </div>
+    <div class="feature-item">
+      <span style="font-family:monospace;color:#14b8a6;">04 / لغة</span>
+      <h3>عربي وإنجليزي أصلي</h3>
+      <p>واجهة RTL احترافية مبنية للمستخدم العربي من البداية.</p>
+    </div>
+  </div>
+
+  <!-- 🛠️ تنويه دعم فني إضافي (في النص) -->
+  <div style="background:#eefdf9; border-radius:24px; padding:1.5rem; margin:1rem 0;">
+    <p style="font-weight:700; color:#0b4f4c;">🛡️ دعم فني كامل حتى التشغيل</p>
+    <p style="color:#2c4a45;">بعد استلام الكود، بتابع معاك شخصيًا على واتساب أو أي وسيلة تفضلها. نشرح خطوات رفع الكود على GitHub وربطه بـ Cloudflare، ونتأكد إن كل حاجة شغالة. <strong>مش هتبقى لوحدك أبدًا.</strong></p>
+  </div>
+
+  <!-- قسم الشراء (اتصالات كاش + نسخ تلقائي) -->
+  <div class="purchase-block" id="buyNow">
+    <h2 style="color:#0b4f4c; margin-bottom:1rem;">📱 ادفع عبر اتصالات كاش</h2>
+    <p style="margin-bottom:1.2rem;">حوّل 100 جنيه (لأول 10 عملاء) · بعد الدفع ابعت إثبات على واتساب + استلم دعم فني فوري</p>
+    
+    <button id="copyWalletBtn" onclick="handleCopyWallet()">
+      📋 اضغط لنسخ رقم المحفظة تلقائيًا
+    </button>
+    <p id="copyMessage" style="margin-top:0.7rem; font-size:0.9rem; color:#0b4f4c;"></p>
+
+    <div style="margin-top:1.8rem; display:flex; gap:0.8rem; flex-wrap:wrap;">
+      <a href="https://wa.me/201124316097?text=السلام%20عليكم%2C%20حوّلت%20مبلغ%20أداة%20مهندس%20البرومبت%20(100%20جنيه)%20عبر%20اتصالات%20كاش%20وهذا%20إثبات%20التحويل%20-٪20محتاج%20الدعم%20الفني%20للتركيب" target="_blank" class="btn btn-solid" style="background:#25D366; width:auto;">💬 واتساب لتأكيد الدفع</a>
+    </div>
+    <p style="margin-top:1rem; font-size:0.85rem;">رقم اتصالات كاش: <span style="font-family:monospace; direction:ltr;">01124316097</span> (يُنسخ تلقائيًا)</p>
+  </div>
+
+  <!-- 🖼️ معاينة صور ثالثة (أسفل الصفحة) -->
+  <div class="image-row" style="margin: 1.8rem 0 1rem;">
+    <img src="/storage/emulated/0/shopy/Img2.jpg" alt="تركيب سريع" class="mock-img" style="width:110px; height:110px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22110%22 height=%22110%22%3E%3Crect width=%22110%22 height=%22110%22 fill=%22%230f766e%22/%3E%3Ctext x=%2215%22 y=%2265%22 fill=%22white%22%3Esetup%3C/text%3E%3C/svg%3E';">
+    <img src="/storage/emulated/0/shopy/Img1.jpg" alt="دعم مستمر" class="mock-img" style="width:110px; height:110px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22110%22 height=%22110%22%3E%3Crect width=%22110%22 height=%22110%22 fill=%22%2314b8a6%22/%3E%3Ctext x=%2215%22 y=%2265%22 fill=%22white%22%3Ehelp%3C/text%3E%3C/svg%3E';">
+  </div>
+
+  <footer>مُهندس البرومبت — كود مصدري كامل · دعم فني للتركيب · ألوان أكوا زاهية</footer>
+</div>
+
+<script>
+  (function() {
+    let buyers = 5;
+    const MAX = 10;
+    const countSpan = document.getElementById('buyerCount');
+    const counterBox = document.getElementById('liveCounter');
+
+    function refreshCounter() {
+      if (countSpan) countSpan.textContent = buyers;
+      if (counterBox && buyers >= MAX) {
+        counterBox.innerHTML = '<span>✅ اكتمل عرض أول 10 عملاء</span>';
+      }
+    }
+    window.addEventListener('load', refreshCounter);
+
+    window.handleCopyWallet = function() {
+      const wallet = "01124316097";
+      const btn = document.getElementById('copyWalletBtn');
+      const msg = document.getElementById('copyMessage');
+      
+      if (!navigator.clipboard) {
+        if (msg) msg.textContent = 'انسخ يدوياً: ' + wallet;
+        return;
+      }
+      navigator.clipboard.writeText(wallet).then(() => {
+        if (btn) {
+          btn.classList.add('copied');
+          btn.textContent = '✓ تم نسخ رقم المحفظة!';
+        }
+        if (msg) msg.textContent = 'تم نسخ رقم اتصالات كاش بنجاح: ' + wallet;
+        setTimeout(() => {
+          if (btn) {
+            btn.classList.remove('copied');
+            btn.textContent = '📋 اضغط لنسخ رقم المحفظة تلقائيًا';
+          }
+        }, 2600);
+      }).catch(() => {
+        if (msg) msg.textContent = 'رقم المحفظة: ' + wallet;
+      });
+    };
+  })();
+</script>
+</body>
+</html>
